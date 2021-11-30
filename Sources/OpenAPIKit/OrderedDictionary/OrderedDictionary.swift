@@ -101,7 +101,7 @@ public struct OrderedDictionary<Key, Value> where Key: Hashable {
 
     /// Returns whether the dictionary contains the given key.
     public func contains(key: Key) -> Bool {
-        return keys.contains(key)
+        unorderedHash[key] != nil
     }
 
     /// Returns a new dictionary containing the keys of this dictionary with the
@@ -189,8 +189,6 @@ extension OrderedDictionary: Collection {
 
     /// Get the key/value pair at the given index.
     public subscript(position: Int) -> (key: Key, value: Value) {
-        precondition(position < count)
-
         let key = orderedKeys[position]
 
         return (key, unorderedHash[key]!)
