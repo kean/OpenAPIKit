@@ -417,13 +417,13 @@ extension JSONSchema {
         }
 
         /// A numeric instance is valid only if division by this keyword's value results in an integer. Defaults to nil.
-        public let multipleOf: Int?
+        public let multipleOf: Double?
 
         public let maximum: Bound?
         public let minimum: Bound?
 
         public init(
-            multipleOf: Int? = nil,
+            multipleOf: Double? = nil,
             maximum: (Int, exclusive: Bool)? = nil,
             minimum: (Int, exclusive: Bool)? = nil
         ) {
@@ -437,12 +437,12 @@ extension JSONSchema {
         /// This will only succeed if all properties of the `NumericContext` are
         /// integers.
         public init?(from numericContext: NumericContext) {
-            let multipleOf: Int?
+            let multipleOf: Double?
             if let numericMultipleOf = numericContext.multipleOf {
                 guard let intMultipleOf = Int(exactly: numericMultipleOf) else {
                     return nil
                 }
-                multipleOf = intMultipleOf
+                multipleOf = Double(intMultipleOf)
             } else {
                 multipleOf = nil
             }
@@ -473,7 +473,7 @@ extension JSONSchema {
         }
 
         internal init(
-            multipleOf: Int?,
+            multipleOf: Double?,
             maximum: Bound?,
             minimum: Bound?
         ) {
@@ -486,7 +486,7 @@ extension JSONSchema {
         /// `IntegerContext`.
         public var numericContext: NumericContext {
             return .init(
-                multipleOf: multipleOf.map(Double.init),
+                multipleOf: multipleOf,
                 maximum: maximum.map { (Double($0.value), exclusive: $0.exclusive) },
                 minimum: minimum.map { (Double($0.value), exclusive: $0.exclusive) }
             )
@@ -836,7 +836,7 @@ extension JSONSchema.IntegerContext: Decodable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        multipleOf = try container.decodeIfPresent(Int.self, forKey: .multipleOf)
+        multipleOf = try container.decodeIfPresent(Double.self, forKey: .multipleOf)
 
         let exclusiveMaximum = try container.decodeIfPresent(Bool.self, forKey: .exclusiveMaximum) ?? false
         let exclusiveMinimum = try container.decodeIfPresent(Bool.self, forKey: .exclusiveMinimum) ?? false

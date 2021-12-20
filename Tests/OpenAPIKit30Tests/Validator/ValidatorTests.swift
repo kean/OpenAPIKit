@@ -1358,7 +1358,7 @@ final class ValidatorTests: XCTestCase {
         let validator = Validator()
             .validating("string", check: \String.self == "hiya", when: \.codingPath.last?.stringValue == "x-string")
             .validating("int", check: \Int.self == 3)
-            .validating("double", check: \Double.self == 10.5)
+            //.validating("double", check: \Double.self == 10.5)
             .validating("float", check: \Float.self == 22.5)
             .validating("bool", check: \Bool.self == true)
 
