@@ -197,8 +197,6 @@ extension OrderedDictionary: Collection {
 
     /// Get the key/value pair at the given index.
     public subscript(position: Int) -> (key: Key, value: Value) {
-        precondition(position < count)
-
         let key = orderedKeys[position]
 
         return (key, unorderedHash[key]!)
