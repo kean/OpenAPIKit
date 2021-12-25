@@ -307,7 +307,7 @@ extension OpenAPI.ContentType.Builtin: RawRepresentable {
 
         default:
             let split = rawValue.split(separator: "/")
-            if split.count == 2 {
+            if split.count >= 1 {
                 self = .other(rawValue)
             } else {
                 return nil
